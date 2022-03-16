@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'name' => [
-        'short' => $_ENV['APP_NAME']
-    ]    
+    'name' => env('APP_NAME'),
+    'debug' => env('APP_DEBUG', false),
 ];

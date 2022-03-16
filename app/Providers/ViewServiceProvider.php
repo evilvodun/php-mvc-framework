@@ -23,14 +23,20 @@ class ViewServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $container->add(View::class, function() use ($container) {
+        $config = $container->get('config');
+
+        $container->add(View::class, function() use ($config) {
             $loader = new FilesystemLoader(base_path('views'));
+
             $twig = new Environment($loader, [
-                'cache' => false,
-                'debug' => true
+                'cache' => $config->get('cache.views.path'),
+                'debug' => $config->get('app.debug')
             ]);
-            $twig->addExtension(new DebugExtension());
-            
+
+            if($config->get('app.debug')) {
+                $twig->addExtension(new DebugExtension());
+            }
+
             return new View($twig);
         });
 

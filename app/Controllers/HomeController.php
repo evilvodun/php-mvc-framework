@@ -18,6 +18,10 @@ class HomeController
 
     public function index($request)
     {
-        return $this->view->render($this->response, 'home.twig');
+        return $this->view->render($this->response, 'home.twig', [
+            'user' => [
+                'id' => 4
+            ]
+        ]);
     }
 }

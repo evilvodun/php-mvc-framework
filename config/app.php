@@ -8,5 +8,6 @@ return [
         'App\Providers\AppServiceProvider',
         'App\Providers\ResponseServiceProvider',
         'App\Providers\ViewServiceProvider',
+        'App\Providers\DatabaseServiceProvider',
     ]
 ];

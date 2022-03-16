@@ -14,6 +14,10 @@
         "laminas/laminas-diactoros": "^2.8",
         "laminas/laminas-httphandlerrunner": "^2.1",
         "twig/twig": "^3.3",
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.0",
+        "doctrine/orm": "^2.11",
+        "doctrine/cache": "^2.1",
+        "symfony/cache": "^6.0",
+        "doctrine/annotations": "^1.13"
     }
 }

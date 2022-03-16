@@ -24,7 +24,7 @@ class ViewServiceProvider extends AbstractServiceProvider
         $container = $this->getContainer();
 
         $container->add(View::class, function() use ($container) {
-            $loader = new FilesystemLoader(__DIR__ . '/../../views');
+            $loader = new FilesystemLoader(base_path('views'));
             $twig = new Environment($loader, [
                 'cache' => false
             ]);

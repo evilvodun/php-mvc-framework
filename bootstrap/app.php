@@ -1,6 +1,4 @@
 <?php
-
-
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -10,16 +8,6 @@ try {
 } catch (\Dotenv\Exception\InvalidPathException $e) {
     //
 }
-
-$loader = new App\Config\Loaders\ArrayLoader([
-    'app' => base_path('config/app.php'),
-    'cache' => base_path('config/cache.php')
-]);
-
-dump($loader->parse());
-
-die();
-
 
 require_once __DIR__ . '/container.php';
 

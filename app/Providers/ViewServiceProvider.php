@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Views\View;
 use Twig\Environment;
-use Laminas\Diactoros\Response;
 use Twig\Loader\FilesystemLoader;
+use \Twig\Extension\DebugExtension;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ViewServiceProvider extends AbstractServiceProvider
@@ -26,8 +26,11 @@ class ViewServiceProvider extends AbstractServiceProvider
         $container->add(View::class, function() use ($container) {
             $loader = new FilesystemLoader(base_path('views'));
             $twig = new Environment($loader, [
-                'cache' => false
+                'cache' => false,
+                'debug' => true
             ]);
+            $twig->addExtension(new DebugExtension());
+            
             return new View($twig);
         });
 

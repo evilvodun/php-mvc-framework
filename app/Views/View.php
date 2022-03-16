@@ -3,22 +3,22 @@
 namespace App\Views;
 
 use Twig\Environment;
-use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class View 
 {
     protected $twig;
-    protected $response;
 
-    public function __construct(Environment $twig, Response $response)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
-        $this->response = $response;
     }
 
-    public function render()
+    public function render(ResponseInterface $response, $view, $data = [])
     {
-        $this->response->getBody()->write('hello world');
-        return $this->response;
+        $response->getBody()->write(
+            $this->twig->render($view, $data)
+        );
+        return $response;
     }
 }

@@ -16,10 +16,8 @@ class HomeController
         $this->response = $response;
     }
 
-    public function index()
+    public function index($request)
     {
-        // $this->response->getBody()->write('hello world');
-        // return $this->response;
-        return $this->view->render();
+        return $this->view->render($this->response, 'home.twig');
     }
 }

@@ -28,7 +28,7 @@ class ViewServiceProvider extends AbstractServiceProvider
             $twig = new Environment($loader, [
                 'cache' => false
             ]);
-            return new View($twig, $container->get(Response::class));
+            return new View($twig);
         });
 
     }

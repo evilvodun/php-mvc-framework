@@ -13,6 +13,7 @@
         "league/container": "^4.2",
         "laminas/laminas-diactoros": "^2.8",
         "laminas/laminas-httphandlerrunner": "^2.1",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "symfony/var-dumper": "^6.0"
     }
 }

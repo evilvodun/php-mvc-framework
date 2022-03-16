@@ -1,10 +1,25 @@
 <?php
 
+
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = (Dotenv\Dotenv::createImmutable(base_path()))->load();
+try {
+    $dotenv = (Dotenv\Dotenv::createImmutable(base_path()))->load();
+} catch (\Dotenv\Exception\InvalidPathException $e) {
+    //
+}
+
+$loader = new App\Config\Loaders\ArrayLoader([
+    'app' => base_path('config/app.php'),
+    'cache' => base_path('config/cache.php')
+]);
+
+dump($loader->parse());
+
+die();
+
 
 require_once __DIR__ . '/container.php';
 

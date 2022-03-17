@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -16,4 +17,8 @@ $router   = (new League\Route\Router)->setStrategy($strategy);
 
 require_once base_path('routes/web.php');
 
-$response = $router->dispatch($container->get('request'));
+try {
+    $response = $router->dispatch($container->get('request'));
+} catch (\Exception $e) {
+    dump($e);
+}

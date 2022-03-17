@@ -18,6 +18,7 @@
         "doctrine/orm": "^2.11",
         "doctrine/cache": "^2.1",
         "symfony/cache": "^6.0",
-        "doctrine/annotations": "^1.13"
+        "doctrine/annotations": "^1.13",
+        "vlucas/valitron": "^1.4"
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -21,6 +20,9 @@ require_once base_path('routes/web.php');
 try {
     $response = $router->dispatch($container->get('request'));
 } catch (\Exception $e) {
-    $handler = new App\Exceptions\Handler($e);
+    $handler = new App\Exceptions\Handler(
+        $e, 
+        $container->get(App\Session\SessionStoreInterface::class)
+    );
     $response = $handler->respond();
 }

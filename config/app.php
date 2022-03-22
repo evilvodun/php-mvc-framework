@@ -6,9 +6,14 @@ return [
 
     'providers' => [
         'App\Providers\AppServiceProvider',
+        'App\Providers\EnvironmentServiceProvider',
         'App\Providers\ResponseServiceProvider',
-        'App\Providers\ViewServiceProvider',
         'App\Providers\DatabaseServiceProvider',
         'App\Providers\SessionServiceProvider',
+    ],
+
+    'middlewares' => [
+        'App\Middleware\ShareValidationErrors',
+        'App\Middleware\ClearValidationErrors'
     ]
 ];

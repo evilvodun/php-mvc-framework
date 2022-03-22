@@ -4,18 +4,33 @@
     <div class="row justify-content-center">
         <div class="col-6 offset-4">
             <h1>Login</h1>
+            {# {{ dump(session.get('errors').email | first) }} #}
         </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-6">
-            <form action="/auth/signin" method="post">
+            <form action="{{ route('auth.signin') }}" method="post">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" id="email" class="form-control">
+                    <label for="email"></label>
+                    <input type="text" name="email" id="email" placeholder="" class="form-control{{ session.get('errors').email ? ' is-invalid' : '' }}">
+
+                    {% if session.get('errors').email %}
+                        <div class="invalid-feedback">
+                            {{ session.get('errors').email | first }}
+                        </div>
+                    {% endif %}
+
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="password" class="form-control{{ session.get('errors').password ? ' is-invalid' : '' }}">
+
+                    {% if session.get('errors').password %}
+                        <div class="invalid-feedback">
+                            {{ session.get('errors').password | first }}
+                        </div>
+                    {% endif %}
+
                 </div>
                 <div class="form-check">
                     <label for="remember" class="form-check-label">

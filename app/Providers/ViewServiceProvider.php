@@ -4,12 +4,20 @@ namespace App\Providers;
 
 use App\Views\View;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use \Twig\Extension\DebugExtension;
+use League\Route\Router;
+use App\Session\SessionStoreInterface;
+use App\Views\Extensions\PathExtension;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ViewServiceProvider extends AbstractServiceProvider
 {
+    protected $router;
+
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
+    
     public function provides(string $id): bool
     {
         $provides = [
@@ -23,19 +31,12 @@ class ViewServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $config = $container->get('config');
+        $container->add(View::class, function() use ($container) {
+            $twig = $container->get(Environment::class);
 
-        $container->add(View::class, function() use ($config) {
-            $loader = new FilesystemLoader(base_path('views'));
-
-            $twig = new Environment($loader, [
-                'cache' => $config->get('cache.views.path'),
-                'debug' => $config->get('app.debug')
-            ]);
-
-            if($config->get('app.debug')) {
-                $twig->addExtension(new DebugExtension());
-            }
+            $twig->addExtension(new PathExtension($this->router));
+            $twig->addGlobal("config", $container->get('config'));
+            $twig->addGlobal("session", $container->get(SessionStoreInterface::class));
 
             return new View($twig);
         });

@@ -3,7 +3,6 @@
 namespace App\Views;
 
 use Twig\Environment;
-use Psr\Http\Message\ResponseInterface;
 
 class View 
 {
@@ -14,11 +13,20 @@ class View
         $this->twig = $twig;
     }
 
-    public function render(ResponseInterface $response, $view, $data = [])
+    public function render($response, $view, $data = [])
     {
         $response->getBody()->write(
             $this->twig->render($view, $data)
         );
+
         return $response;
+    }
+
+    public function share(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->twig->addGlobal($key, $value);
+        }
+       
     }
 }

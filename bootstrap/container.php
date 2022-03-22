@@ -11,3 +11,4 @@ $container->addServiceProvider(new App\Providers\ConfigServiceProvider());
 foreach ($container->get('config')->get('app.providers') as $provider) {
     $container->addServiceProvider(new $provider);
 }
+

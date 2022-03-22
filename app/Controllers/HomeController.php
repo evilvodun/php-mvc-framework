@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Views\View;
+use League\Route\Router;
 use Laminas\Diactoros\Response;
 
 class HomeController 

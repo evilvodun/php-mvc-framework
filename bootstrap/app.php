@@ -1,5 +1,9 @@
 <?php
 
+use App\Views\View;
+use App\Views\Extensions\PathExtension;
+use League\Route\Strategy\ApplicationStrategy;
+
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -10,12 +14,16 @@ try {
     //
 }
 
-require_once __DIR__ . '/container.php';
+require_once base_path('bootstrap/container.php');
 
-$strategy = (new League\Route\Strategy\ApplicationStrategy)->setContainer($container);
-$router   = (new League\Route\Router)->setStrategy($strategy);
+$strategy = (new ApplicationStrategy)->setContainer($container);
+$router = $container->get(League\Route\Router::class)->setStrategy($strategy);
+
+require_once base_path('bootstrap/middleware.php');
 
 require_once base_path('routes/web.php');
+
+$container->addServiceProvider(new App\Providers\ViewServiceProvider($router));
 
 try {
     $response = $router->dispatch($container->get('request'));
@@ -26,3 +34,4 @@ try {
     );
     $response = $handler->respond();
 }
+

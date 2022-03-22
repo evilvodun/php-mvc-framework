@@ -1,7 +1,9 @@
 <?php
 namespace App\Providers;
 
+use League\Route\Router;
 use Laminas\Diactoros\ServerRequestFactory;
+use League\Route\Strategy\ApplicationStrategy;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -12,6 +14,7 @@ class AppServiceProvider extends AbstractServiceProvider
         $provides = [
             'request',
             'emitter',
+            Router::class
         ];
 
         return in_array($id, $provides);
@@ -26,6 +29,8 @@ class AppServiceProvider extends AbstractServiceProvider
                 $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
             );
         });
+
+        $container->add(Router::class);
         
         $container->add('emitter', SapiEmitter::class);
     }

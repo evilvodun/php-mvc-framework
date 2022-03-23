@@ -21,14 +21,8 @@ $router = $container->get(Router::class);
 $container->addServiceProvider(new App\Providers\ViewServiceProvider($router));
 $container->addServiceProvider(new App\Providers\NamedRoutesServiceProvider($router));
 
-
-
 require_once base_path('bootstrap/middleware.php');
-
-
 require_once base_path('routes/web.php');
-
-
 
 
 try {
@@ -36,8 +30,9 @@ try {
 } catch (\Exception $e) {
     $handler = new App\Exceptions\Handler(
         $e, 
-        $container->get(App\Session\SessionStoreInterface::class)
+        $container->get(App\Session\SessionStoreInterface::class),
+        $container->get(App\Views\View::class),
+        $container->get(Laminas\Diactoros\Response::class)
     );
     $response = $handler->respond();
 }
-

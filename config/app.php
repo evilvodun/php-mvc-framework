@@ -11,6 +11,8 @@ return [
         'App\Providers\SessionServiceProvider',
         'App\Providers\HashServiceProvider',
         'App\Providers\AuthServiceProvider',
+        'App\Providers\FlashServiceProvider',
+        'App\Providers\CsrfServiceProvider',
         'App\Providers\ViewShareServiceProvider',
         'App\Providers\ResponseServiceProvider',
     ],
@@ -18,6 +20,7 @@ return [
     'middlewares' => [
         'App\Middleware\ShareValidationErrors',
         'App\Middleware\ClearValidationErrors',
-        'App\Middleware\Authenticate'
+        'App\Middleware\Authenticate',
+        'App\Middleware\CsrfGuard',
     ]
 ];

@@ -10,7 +10,7 @@
         <div class="col-6">
             <form action="{{ route('auth.signin') }}" method="post">
                 <div class="form-group">
-                    <label for="email"></label>
+                    <label for="email">Email</label>
                     <input type="text" name="email" id="email" placeholder="" class="form-control{{ errors.email ? ' is-invalid' : '' }}">
 
                     {% if errors.email %}
@@ -37,6 +37,7 @@
                         Remember me
                     </label>
                 </div>
+                <input type="hidden" name="{{ csrf.key }}" value="{{ csrf.token }}">
                 <button type="submit" class="btn btn-primary">Sign in</button>
             </form>
         </div>

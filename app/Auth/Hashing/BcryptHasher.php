@@ -31,7 +31,7 @@ class BcryptHasher implements HasherInterface
     protected function options()
     {
         return [
-            'cost' => 12
+            'cost' => 15
         ];
     }
 }

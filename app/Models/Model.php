@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Models;
 
-abstract class Model 
+abstract class Model
 {
     public function __get($name)
     {
-        if(property_exists($this, $name)) {
+        if (property_exists($this, $name)) {
             return $this->{$name};
         }
     }
@@ -17,5 +18,12 @@ abstract class Model
         }
 
         return false;
+    }
+
+    public function update(array $columns)
+    {
+        foreach ($columns as $column => $value) {
+            $this->{$column} = $value;
+        }
     }
 }

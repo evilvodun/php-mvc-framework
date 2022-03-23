@@ -25,6 +25,11 @@ class Auth
         $this->session = $session;
     }
 
+    public function logout()
+    {
+        $this->session->clear($this->key());
+    }
+
     public function attempt($email, $password)
     {
         $user = $this->getByUsername($email);
@@ -33,9 +38,27 @@ class Auth
             return false;
         }
 
+        if($this->needsRehash($user)) {
+            $this->rehashPassword($user, $password);
+        }
+
         $this->setUserSession($user);
 
         return true;
+    }
+
+    protected function needsRehash($user)
+    {
+        return $this->hash->needsRehash($user->password);
+    }
+
+    protected function rehashPassword($user, $password)
+    {
+        $this->db->getRepository(User::class)->find($user->id)->update([
+            'password' => $this->hash->create($password)
+        ]);
+
+        $this->db->flush();
     }
 
     public function user()

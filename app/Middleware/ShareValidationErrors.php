@@ -1,31 +1,31 @@
 <?php
 namespace App\Middleware;
 
-use Twig\Environment;
+use App\Views\View;
 use App\Session\SessionStoreInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use App\Views\Extensions\ErrorsExtension;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 
 class ShareValidationErrors implements MiddlewareInterface
 {
-    protected $twig;
+    protected $view;
     protected $session;
     
-    public function __construct(Environment $twig, SessionStoreInterface $session)
+    public function __construct(View $view, SessionStoreInterface $session)
     {
-        $this->twig = $twig;
+        $this->view = $view;
         $this->session = $session;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    { 
-        // $this->twig->addGlobal('errors', $this->session->get('errors', []));
-        // $this->twig->addExtension(new ErrorsExtension($this->session->get('errors', [])));
-        
+    {
+        $this->view->share([
+            'errors' => $this->session->get('errors', []),
+            'old' => $this->session->get('old', []),
+        ]);
 
         $response = $handler->handle($request);
         return $response;

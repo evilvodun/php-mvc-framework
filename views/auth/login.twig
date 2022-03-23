@@ -4,7 +4,6 @@
     <div class="row justify-content-center">
         <div class="col-6 offset-4">
             <h1>Login</h1>
-            {# {{ dump(session.get('errors').email | first) }} #}
         </div>
     </div>
     <div class="row justify-content-center">
@@ -12,22 +11,22 @@
             <form action="{{ route('auth.signin') }}" method="post">
                 <div class="form-group">
                     <label for="email"></label>
-                    <input type="text" name="email" id="email" placeholder="" class="form-control{{ session.get('errors').email ? ' is-invalid' : '' }}">
+                    <input type="text" name="email" id="email" placeholder="" class="form-control{{ errors.email ? ' is-invalid' : '' }}">
 
-                    {% if session.get('errors').email %}
+                    {% if errors.email %}
                         <div class="invalid-feedback">
-                            {{ session.get('errors').email | first }}
+                            {{ errors.email | first }}
                         </div>
                     {% endif %}
 
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control{{ session.get('errors').password ? ' is-invalid' : '' }}">
+                    <input type="password" name="password" id="password" class="form-control{{ errors.password ? ' is-invalid' : '' }}">
 
-                    {% if session.get('errors').password %}
+                    {% if errors.password %}
                         <div class="invalid-feedback">
-                            {{ session.get('errors').password | first }}
+                            {{ errors.password | first }}
                         </div>
                     {% endif %}
 

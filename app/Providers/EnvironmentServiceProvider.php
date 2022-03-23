@@ -25,7 +25,7 @@ class EnvironmentServiceProvider extends AbstractServiceProvider
 
         $config = $container->get('config');
 
-        $container->add(Environment::class, function () use ($config, $container) {
+        $container->addShared(Environment::class, function () use ($config, $container) {
             $loader = new FilesystemLoader(base_path('views'));
             $twig = new Environment($loader, [
                 'cache' => $config->get('cache.views.path'),

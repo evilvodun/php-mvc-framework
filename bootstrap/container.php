@@ -7,6 +7,7 @@ $container->delegate(
 );
 
 $container->addServiceProvider(new App\Providers\ConfigServiceProvider());
+$container->addServiceProvider(new App\Providers\AppServiceProvider());
 
 foreach ($container->get('config')->get('app.providers') as $provider) {
     $container->addServiceProvider(new $provider);

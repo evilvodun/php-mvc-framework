@@ -21,7 +21,7 @@ class SessionServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $container->add(SessionStoreInterface::class, function(){
+        $container->addShared(SessionStoreInterface::class, function(){
             return new Session();
         });
     }

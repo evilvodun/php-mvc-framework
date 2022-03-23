@@ -27,6 +27,5 @@ class View
         foreach ($data as $key => $value) {
             $this->twig->addGlobal($key, $value);
         }
-       
     }
 }

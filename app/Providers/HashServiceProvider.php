@@ -2,15 +2,17 @@
 
 namespace App\Providers;
 
-use Laminas\Diactoros\Response;
+use App\Auth\Hashing\BcryptHasher;
+use App\Auth\Hashing\HasherInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
-class ResponseServiceProvider extends AbstractServiceProvider
+class HashServiceProvider extends AbstractServiceProvider
 {
+
     public function provides(string $id): bool
     {
         $provides = [
-            Response::class,
+            HasherInterface::class
         ];
 
         return in_array($id, $provides);
@@ -19,8 +21,9 @@ class ResponseServiceProvider extends AbstractServiceProvider
     public function register(): void
     {
         $container = $this->getContainer();
-        $container->addShared(Response::class, function(){
-            return new Response;
+
+        $container->addShared(HasherInterface::class, function () {
+            return new BcryptHasher;
         });
     }
 }

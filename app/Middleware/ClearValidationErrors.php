@@ -20,7 +20,7 @@ class ClearValidationErrors implements MiddlewareInterface
         $this->session = $session;
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process($request, $handler): ResponseInterface
     {
         $response = $handler->handle($request);
         

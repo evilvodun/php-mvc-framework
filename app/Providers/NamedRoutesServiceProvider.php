@@ -2,15 +2,12 @@
 
 namespace App\Providers;
 
-use App\Auth\Auth;
-use App\Views\View;
 use Twig\Environment;
 use League\Route\Router;
-use App\Session\SessionStoreInterface;
-use App\Views\Extensions\PathExtension;
+use App\Config\NamedRoutes;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
-class ViewServiceProvider extends AbstractServiceProvider
+class NamedRoutesServiceProvider extends AbstractServiceProvider
 {
     protected $router;
 
@@ -18,11 +15,11 @@ class ViewServiceProvider extends AbstractServiceProvider
     {
         $this->router = $router;
     }
-    
+
     public function provides(string $id): bool
     {
         $provides = [
-            View::class
+            NamedRoutes::class
         ];
 
         return in_array($id, $provides);
@@ -32,13 +29,10 @@ class ViewServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $container->addShared(View::class, function() use ($container) {
+        $container->addShared(NamedRoutes::class, function () use ($container) {
             $twig = $container->get(Environment::class);
-
-            $twig->addExtension(new PathExtension($this->router));
-
-            return new View($twig);
+            
+            return new NamedRoutes($this->router);
         });
-
     }
 }

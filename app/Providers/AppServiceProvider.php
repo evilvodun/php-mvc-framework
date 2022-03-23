@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use League\Route\Router;
@@ -24,14 +25,24 @@ class AppServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $container->add('request', function(){
+        $container->addShared('request', function () {
             return ServerRequestFactory::fromGlobals(
-                $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+                $_SERVER,
+                $_GET,
+                $_POST,
+                $_COOKIE,
+                $_FILES
             );
         });
 
-        $container->add(Router::class);
-        
-        $container->add('emitter', SapiEmitter::class);
+        $container->addShared(Router::class, function () use ($container) {
+
+            $strategy = (new ApplicationStrategy)->setContainer($container);
+            $router = (new Router)->setStrategy($strategy);
+            
+            return $router;
+        });
+
+        $container->addShared('emitter', SapiEmitter::class);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Auth\Auth;
 use App\Views\View;
+use App\Cookie\CookieJar;
 use Laminas\Diactoros\Response;
-use App\Auth\Hashing\HasherInterface;
-use App\Session\SessionStoreInterface;
 
 class HomeController 
 {
@@ -14,25 +12,19 @@ class HomeController
 
     protected $response;
 
-    protected $hasher;
-
-    protected $auth;
-    protected $session;
+    protected $cookie;
     
-    public function __construct(View $view, Response $response, HasherInterface $hasher, Auth $auth, SessionStoreInterface $session)
+    public function __construct(View $view, Response $response, CookieJar $cookie)
     {
         $this->view = $view;
         $this->response = $response;
-        $this->hasher = $hasher;
-        $this->auth = $auth;
-        $this->session = $session;
+        $this->cookie = $cookie;
     }
 
     public function index($request)
     {
-        // dump($this->auth->user());
-        return $this->view->render($this->response, 'home.twig', [
-            'user' => $this->auth->user()
-        ]);
+        $this->cookie->clear('abc');
+
+        return $this->view->render($this->response, 'home.twig');
     }
 }

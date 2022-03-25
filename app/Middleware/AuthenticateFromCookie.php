@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 
-class Authenticate implements MiddlewareInterface
+class AuthenticateFromCookie implements MiddlewareInterface
 {
     protected $auth;
 
@@ -21,11 +21,14 @@ class Authenticate implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if($this->auth->hasUserInSession()) {
-            
+        if ($this->auth->check()) {
+            return $handler->handle($request);
+        }
+
+        if($this->auth->hasRecaller()){
             try {
-                $this->auth->setUserFromSession();
-            } catch (Exception $e) {
+                $this->auth->setUserFromCookie();
+            } catch (Exception $exception) {
                 $this->auth->logout();
             }
         }

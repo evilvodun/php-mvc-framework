@@ -22,7 +22,8 @@
         "symfony/var-dumper": "^5.4",
         "symfony/cache": "^5.4",
         "illuminate/database": "^8.83",
-        "illuminate/support": "^8.83"
+        "illuminate/support": "^8.83",
+        "illuminate/pagination": "^8.83"
     },
     "config": {
         "platform": {

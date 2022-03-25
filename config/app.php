@@ -15,6 +15,7 @@ return [
         'App\Providers\CsrfServiceProvider',
         'App\Providers\ValidationServiceProvider',
         'App\Providers\CookieServiceProvider',
+        'App\Providers\PaginationServiceProvider',
         'App\Providers\ViewShareServiceProvider',
         'App\Providers\ResponseServiceProvider',
     ],

@@ -7,7 +7,6 @@ use App\Views\View;
 use App\Models\User;
 use App\Config\NamedRoutes;
 use App\Controllers\Controller;
-use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response;
 use App\Auth\Hashing\HasherInterface;
 
@@ -17,7 +16,7 @@ class RegisterController extends Controller
     protected $response;
     protected $hash;
     protected $routes;
-    protected $db;
+
     protected $auth;
 
     public function __construct(
@@ -25,14 +24,12 @@ class RegisterController extends Controller
         Response $response,
         HasherInterface $hash,
         NamedRoutes $routes,
-        EntityManager $db,
         Auth $auth
     ) {
         $this->view = $view;
         $this->response = $response;
         $this->hash = $hash;
         $this->routes = $routes;
-        $this->db = $db;
         $this->auth = $auth;
     }
 
@@ -55,18 +52,12 @@ class RegisterController extends Controller
 
     protected function createUser($data)
     {
-        $user = new User;
 
-        $user->fill([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $this->hash->create($data['password'])
         ]);
-
-        $this->db->persist($user);
-        $this->db->flush();
-
-        return $user;
     }
 
     protected function validateRegistration($request)

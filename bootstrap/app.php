@@ -16,6 +16,7 @@ try {
 
 require_once base_path('bootstrap/container.php');
 
+
 $router = $container->get(Router::class);
 
 $container->addServiceProvider(new App\Providers\ViewServiceProvider($router));

@@ -2,36 +2,33 @@
 
 namespace App\Providers;
 
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
+
+use Illuminate\Database\Capsule\Manager;
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Container\ServiceProvider\BootableServiceProviderInterface;
 
-class DatabaseServiceProvider extends AbstractServiceProvider
+class DatabaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-    public function provides(string $id): bool
-    {
-        $provides = [
-            EntityManager::class
-        ];
-
-        return in_array($id, $provides);
-    }
-
-    public function register(): void
+    public function boot(): void
     {
         $container = $this->getContainer();
 
         $config = $container->get('config');
 
-        $container->addShared(EntityManager::class, function () use ($config) {
-            $entityManager = EntityManager::create(
-                $config->get('db.' . env('DB_TYPE')),
-                Setup::createAnnotationMetadataConfiguration(
-                    [base_path('app')],
-                    $config->get('app.debug')
-                )
-            );
-            return $entityManager;
-        });
+        $capsule = new Manager();
+        $capsule->addConnection($config->get('db.' . env('DB_TYPE')));
+
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+    }
+
+    public function provides(string $id): bool
+    {
+        return false;
+    }
+
+    public function register(): void
+    {
+        // ...
     }
 }
